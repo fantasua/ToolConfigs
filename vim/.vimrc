@@ -35,7 +35,8 @@ set tabstop=4
 set autoindent
 
 "tag bar config
-let g:tagbar_ctags_bin='$HOME/ctags/bin/ctags'
+"uncomment next line when cannot install ctags in $PATH
+"let g:tagbar_ctags_bin='$HOME/ctags/bin/ctags' 
 autocmd FileType python,c,cpp TagbarOpen
 
 " tag file
