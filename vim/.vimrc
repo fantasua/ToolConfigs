@@ -1,5 +1,10 @@
 set nocompatible
+
 filetype off
+set nu
+set ruler
+syntax on
+set hlsearch
 
 " for vundle
 set rtp+=~/.vim/bundle/Vundle.vim
@@ -16,6 +21,10 @@ Plugin 'sheerun/vim-polyglot'
 Plugin 'jacoborus/tender.vim' " tender theme
 Plugin 'joshdick/onedark.vim' " ondark theme
 Plugin 'Yggdroot/indentLine'
+Plugin 'luochen1990/rainbow'
+Plugin 'jeetsukumaran/vim-buffergator'
+Plugin 'airblade/vim-gitgutter'
+Plugin 'ludovicchabant/vim-gutentags'
 
 " All of your Plugins must be added before the following line
 call vundle#end()            " required
@@ -23,9 +32,6 @@ call vundle#end()            " required
 " plugins
 filetype plugin indent on    " required
 
-set nu
-set ruler
-syntax on
 
 " leader key
 let mapleader=","
@@ -34,10 +40,14 @@ let mapleader=","
 set tabstop=4
 set autoindent
 
-"tag bar config
+" enable bracket rainbow plugin
+let g:rainbow_active = 1
+
+" tag bar config
 "uncomment next line when cannot install ctags in $PATH
-"let g:tagbar_ctags_bin='$HOME/ctags/bin/ctags' 
-autocmd FileType python,c,cpp TagbarOpen
+"let g:tagbar_ctags_bin='$HOME/local/bin/ctags'
+"control auto open tagbar on file type
+"autocmd FileType python,c,cpp TagbarOpen 
 
 " tag file
 set tags=./tags,tags;
@@ -55,8 +65,16 @@ au BufWinEnter * silent loadview
 colorscheme onedark
 let g:airline_theme='onedark'
 
+" Gutentag configs
+" uncomment next line when cannot install ctags in $PATH
+"let g:gutentags_ctags_executable=g:tagbar_ctags_bin
+" let g:gutentags_ctags_exclude=['*build/*','*.log','.git/*','*cscope*','*.fsdb','*.bin','*SConstruct*','ext','shared_files','liscensingclient']
+let g:gutentags_ctags_extra_args = ['--fields=+niazS', '--extra=+q']
+let g:gutentags_ctags_extra_args += ['--c++-kinds=+pxI']
+let g:gutentags_ctags_extra_args += ['--c-kinds=+px']
+
 " shortcut keys
 " for Tagbar
 nnoremap <leader>o :TagbarToggle<CR>
 " for NERDTree
-nnoremap <leader>t :NERDTreeToggleVCS<CR>
+nnoremap <leader>e :NERDTreeToggleVCS<CR>
