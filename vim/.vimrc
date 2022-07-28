@@ -78,3 +78,6 @@ let g:gutentags_ctags_extra_args += ['--c-kinds=+px']
 nnoremap <leader>o :TagbarToggle<CR>
 " for NERDTree
 nnoremap <leader>e :NERDTreeToggleVCS<CR>
+
+" key mapping changes
+map <C-]> g<C-]>
