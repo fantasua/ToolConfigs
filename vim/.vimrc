@@ -5,6 +5,7 @@ set nu
 set ruler
 syntax on
 set hlsearch
+set cursorline
 
 " for vundle
 set rtp+=~/.vim/bundle/Vundle.vim
