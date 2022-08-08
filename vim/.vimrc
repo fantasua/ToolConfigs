@@ -26,6 +26,7 @@ Plugin 'luochen1990/rainbow'
 Plugin 'jeetsukumaran/vim-buffergator'
 Plugin 'airblade/vim-gitgutter'
 Plugin 'ludovicchabant/vim-gutentags'
+Plugin 'vim-scripts/a.vim'
 
 " All of your Plugins must be added before the following line
 call vundle#end()            " required
