@@ -2,13 +2,39 @@
 ;; installed packages.  Don't delete this line.  If you don't want it,
 ;; just comment it out by adding a semicolon to the start of the line.
 ;; You may delete these explanatory comments.
-(package-initialize)
+;;(package-initialize)
+
+
+
+(custom-set-variables
+ ;; custom-set-variables was added by Custom.
+ ;; If you edit it by hand, you could mess it up, so be careful.
+ ;; Your init file should contain only one such instance.
+ ;; If there is more than one, they won't work right.
+ '(custom-safe-themes
+   '("c5a81a42df109b02a9a68dfe0ed530080372c1a0bbcb374da77ee3a57e1be719" default))
+ '(package-selected-packages
+   '(helm-gtags helm-etags-plus ag rg bash-completion srcery-theme magit dtrt-indent helm-projectile powerline-evil powerline evil-leader evil-collection ztree gnu-elpa company gnu-elpa-keyring-update)))
+(custom-set-faces
+ ;; custom-set-faces was added by Custom.
+ ;; If you edit it by hand, you could mess it up, so be careful.
+ ;; Your init file should contain only one such instance.
+ ;; If there is more than one, they won't work right.
+ )
 
 ;; some common settings
 (tool-bar-mode 0)
 (menu-bar-mode 0)
 (scroll-bar-mode 0)
+;; show line number
 (global-linum-mode 1)
+;; current line highlight
+(global-hl-line-mode 1)
+;; highlight but keep the original color theme
+(set-face-foreground 'highlight nil)
+;; load theme
+(load-theme 'wombat 1)
+
 
 
 ;; open config file
@@ -31,7 +57,7 @@
 ;; and `package-pinned-packages`. Most users will not need or want to do this.
 ;;(add-to-list 'package-archives '("melpa-stable" . "https://stable.melpa.org/packages/") t)
 (add-to-list 'package-archives '("melpa" . "http://www.mirrorservice.org/sites/melpa.org/packages/") t)
-(add-to-list 'package-archives '("melpa-stable" . "http://www.mirrorservice.org/sites/stable.melpa.org/packages/") t)
+;; (add-to-list 'package-archives '("melpa-stable" . "http://www.mirrorservice.org/sites/stable.melpa.org/packages/") t)
 (package-initialize)
 
 ;; for plugin settings
@@ -47,6 +73,8 @@
 (global-evil-leader-mode)
 (evil-leader/set-leader ",")
 (setq evil-leader/in-all-states 1)
+(evil-leader/set-key
+  "b" 'buffer-menu)
 
 ;; for powerline
 (require 'powerline)
@@ -59,22 +87,7 @@
 (require 'dtrt-indent)
 (dtrt-indent-mode 1)
 
-
-
-(custom-set-variables
- ;; custom-set-variables was added by Custom.
- ;; If you edit it by hand, you could mess it up, so be careful.
- ;; Your init file should contain only one such instance.
- ;; If there is more than one, they won't work right.
- '(custom-safe-themes
-   (quote
-    ("c5a81a42df109b02a9a68dfe0ed530080372c1a0bbcb374da77ee3a57e1be719" default)))
- '(package-selected-packages
-   (quote
-    (magit dtrt-indent helm-projectile powerline-evil powerline evil-leader evil-collection evil ztree gnu-elpa company gnu-elpa-keyring-update))))
-(custom-set-faces
- ;; custom-set-faces was added by Custom.
- ;; If you edit it by hand, you could mess it up, so be careful.
- ;; Your init file should contain only one such instance.
- ;; If there is more than one, they won't work right.
- )
+;; for projectile
+(projectile-mode 1)
+(projectile-discover-projects-in-directory ".")
+(setq projectile-completion-system 'helm)
