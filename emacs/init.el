@@ -14,7 +14,7 @@
  '(custom-safe-themes
    '("c5a81a42df109b02a9a68dfe0ed530080372c1a0bbcb374da77ee3a57e1be719" default))
  '(package-selected-packages
-   '(helm-gtags helm-etags-plus ag rg bash-completion srcery-theme magit dtrt-indent helm-projectile powerline-evil powerline evil-leader evil-collection ztree gnu-elpa company gnu-elpa-keyring-update)))
+   '(vlf helm-gtags helm-etags-plus ag rg bash-completion srcery-theme magit dtrt-indent helm-projectile powerline-evil powerline evil-leader evil-collection ztree gnu-elpa company gnu-elpa-keyring-update)))
 (custom-set-faces
  ;; custom-set-faces was added by Custom.
  ;; If you edit it by hand, you could mess it up, so be careful.
@@ -26,6 +26,8 @@
 (tool-bar-mode 0)
 (menu-bar-mode 0)
 (scroll-bar-mode 0)
+;; show matching bracket
+(show-paren-mode 1)
 ;; show line number
 (global-linum-mode 1)
 ;; current line highlight
@@ -34,8 +36,6 @@
 (set-face-foreground 'highlight nil)
 ;; load theme
 (load-theme 'wombat 1)
-
-
 
 ;; open config file
 (defun open-config-file()
@@ -73,8 +73,16 @@
 (global-evil-leader-mode)
 (evil-leader/set-leader ",")
 (setq evil-leader/in-all-states 1)
+;; open buffer menu
 (evil-leader/set-key
   "b" 'buffer-menu)
+;; open projectile-ag search
+(evil-leader/set-key
+  "s" 'projectile-ag)
+;; open magit-status
+(evil-leader/set-key
+  "gs" 'magit-status)
+
 
 ;; for powerline
 (require 'powerline)
@@ -91,3 +99,6 @@
 (projectile-mode 1)
 (projectile-discover-projects-in-directory ".")
 (setq projectile-completion-system 'helm)
+
+;; for open large files
+(require 'vlf-setup)
