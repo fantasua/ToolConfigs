@@ -14,7 +14,7 @@
  '(custom-safe-themes
    '("c5a81a42df109b02a9a68dfe0ed530080372c1a0bbcb374da77ee3a57e1be719" default))
  '(package-selected-packages
-   '(vlf helm-gtags helm-etags-plus ag rg bash-completion srcery-theme magit dtrt-indent helm-projectile powerline-evil powerline evil-leader evil-collection ztree gnu-elpa company gnu-elpa-keyring-update)))
+   '(helm-mt flycheck-pos-tip flycheck-color-mode-line flycheck eshell-git-prompt eshell-syntax-highlighting google-c-style evil-nerd-commenter git-gutter better-jumper company-shell json-mode vlf helm-gtags helm-etags-plus ag rg bash-completion srcery-theme magit dtrt-indent helm-projectile powerline-evil powerline evil-leader evil-collection ztree gnu-elpa company gnu-elpa-keyring-update)))
 (custom-set-faces
  ;; custom-set-faces was added by Custom.
  ;; If you edit it by hand, you could mess it up, so be careful.
@@ -29,11 +29,12 @@
 ;; show matching bracket
 (show-paren-mode 1)
 ;; show line number
-(global-linum-mode 1)
+(global-display-line-numbers-mode 1)
 ;; current line highlight
-(global-hl-line-mode 1)
+;;(global-hl-line-mode 1)
 ;; highlight but keep the original color theme
 (set-face-foreground 'highlight nil)
+(set-face-underline 'highlight nil)
 ;; load theme
 (load-theme 'wombat 1)
 
@@ -47,6 +48,64 @@
 ;; open c/cpp header file in c++-mode
 (add-to-list 'auto-mode-alist '("\\.h\\'" . c++-mode))
 
+;; emacs mode which is commonly used
+(defun common-modes ()
+  (hs-minor-mode)
+  (hl-line-mode))
+
+;;set code folding
+(add-hook 'prog-mode-hook 'common-modes)
+(add-hook 'python-mode-hook 'hs-minor-mode)
+(add-hook 'c-mode-common-hook 'hs-minor-mode)
+(add-hook 'c++-mode-hook 'hs-minor-mode)
+;; using evil fold
+(setq evil-fold-list
+      `(((hs-minor-mode)
+         :open-all hs-show-all
+         :close-all hs-hidee-all
+         :toggle hs-toggle-hiding
+         :open hs-show-block
+         :open-rec nil
+         :close hs-hide-block)))
+
+;; disable highlight line when in visual mode
+(add-hook 'evil-visual-state-entry-hook (lambda() (hl-line-mode -1)))
+(add-hook 'evil-visual-state-exit-hook (lambda() (hl-line-mode +1)))
+
+;; treat underscore as part of a word
+(add-hook 'python-mode-hook
+          (lambda () (modify-syntax-entry ?_ "w")))
+(add-hook 'c-mode-common-hook
+          (lambda () (modify-syntax-entry ?_ "w")))
+(add-hook 'c++-mode-hook
+          (lambda () (modify-syntax-entry ?_ "w")))
+
+;; settings for flycheck
+(add-hook 'after-init-hook #'global-flycheck-mode)
+(require 'flycheck-color-mode-line)
+(eval-after-load "flycheck"
+  '(add-hook 'flycheck-mode-hook 'flycheck-color-mode-line-mode))
+
+;; delete trailing whitesapce when saving
+(add-hook 'before-save-hook 'delete-trailing-whitespace)
+(add-hook 'before-save-hook 'whitespace-cleanup)
+
+;; set default indent
+(setq default-tab-width 4)
+(setq-default indent-tabs-mode nil)
+;; c/c++ code indent
+(require 'google-c-style)
+(add-hook 'c-mode-common-hook 'google-set-c-style)
+(add-hook 'c-mode-common-hook 'google-make-newline-indent)
+(add-hook 'c++-mode-hook 'google-set-c-style)
+(add-hook 'c++-mode-hook 'google-make-newline-indent)
+(setq c-default-style "linux"
+      c-basic-offset 2)
+
+;;eshell syntex highlight
+(add-hook 'eshell-mode-hook 'eshell-syntax-highlighting-mode)
+;;eshell git prompt
+(eshell-git-prompt-use-theme 'powerline)
 
 ;; enable melpa
 ;; from melpa known issues
@@ -85,7 +144,8 @@
 
 
 ;; for powerline
-(require 'powerline)
+;;(require 'powerline)
+(require 'powerline-evil)
 (powerline-evil-vim-color-theme)
 
 ;; for helm plugins
@@ -102,3 +162,23 @@
 
 ;; for open large files
 (require 'vlf-setup)
+
+;; for better-jumper
+(require 'better-jumper)
+(with-eval-after-load 'evil-maps
+  (define-key evil-motion-state-map (kbd "C-o") 'better-jumper-jump-backward)
+  (define-key evil-motion-state-map (kbd "<C-i>") 'better-jumper-jump-forward))
+
+;; for git-gutter-plus
+(global-git-gutter-mode 1)
+
+;; for evil-nerd-commenter
+(define-key evil-normal-state-map (kbd ",/") 'evilnc-comment-or-uncomment-lines)
+(define-key evil-visual-state-map (kbd ",/") 'evilnc-comment-or-uncomment-lines)
+
+;; for helm-mt, which is a helm for terminal emulator
+(require 'helm-mt)
+;; using evil-leader
+(evil-leader/set-key
+  "t" 'helm-mt)
+(helm-mt/reroute-terminal-functions t)
