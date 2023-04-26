@@ -12,9 +12,9 @@
  ;; Your init file should contain only one such instance.
  ;; If there is more than one, they won't work right.
  '(custom-safe-themes
-   '("c5a81a42df109b02a9a68dfe0ed530080372c1a0bbcb374da77ee3a57e1be719" default))
+   '("7fd8b914e340283c189980cd1883dbdef67080ad1a3a9cc3df864ca53bdc89cf" "bbb13492a15c3258f29c21d251da1e62f1abb8bbd492386a673dcfab474186af" "c5a81a42df109b02a9a68dfe0ed530080372c1a0bbcb374da77ee3a57e1be719" default))
  '(package-selected-packages
-   '(helm-mt flycheck-pos-tip flycheck-color-mode-line flycheck eshell-git-prompt eshell-syntax-highlighting google-c-style evil-nerd-commenter git-gutter better-jumper company-shell json-mode vlf helm-gtags helm-etags-plus ag rg bash-completion srcery-theme magit dtrt-indent helm-projectile powerline-evil powerline evil-leader evil-collection ztree gnu-elpa company gnu-elpa-keyring-update)))
+   '(spacemacs-theme auto-highlight-symbol helm-mt flycheck-pos-tip flycheck-color-mode-line flycheck eshell-git-prompt eshell-syntax-highlighting google-c-style evil-nerd-commenter git-gutter better-jumper company-shell json-mode vlf helm-gtags helm-etags-plus ag rg bash-completion srcery-theme magit dtrt-indent helm-projectile powerline-evil powerline evil-leader evil-collection ztree gnu-elpa company gnu-elpa-keyring-update)))
 (custom-set-faces
  ;; custom-set-faces was added by Custom.
  ;; If you edit it by hand, you could mess it up, so be careful.
@@ -33,10 +33,10 @@
 ;; current line highlight
 ;;(global-hl-line-mode 1)
 ;; highlight but keep the original color theme
-(set-face-foreground 'highlight nil)
-(set-face-underline 'highlight nil)
+;(set-face-foreground 'highlight nil)
+;(set-face-underline 'highlight nil)
 ;; load theme
-(load-theme 'wombat 1)
+(load-theme 'spacemacs-dark 1)
 
 ;; open config file
 (defun open-config-file()
@@ -182,3 +182,7 @@
 (evil-leader/set-key
   "t" 'helm-mt)
 (helm-mt/reroute-terminal-functions t)
+;; auto highlight symbol
+(global-auto-highlight-symbol-mode t)
+
+;; init.el ends here
