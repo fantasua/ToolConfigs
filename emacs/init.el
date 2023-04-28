@@ -13,8 +13,10 @@
  ;; If there is more than one, they won't work right.
  '(custom-safe-themes
    '("7fd8b914e340283c189980cd1883dbdef67080ad1a3a9cc3df864ca53bdc89cf" "bbb13492a15c3258f29c21d251da1e62f1abb8bbd492386a673dcfab474186af" "c5a81a42df109b02a9a68dfe0ed530080372c1a0bbcb374da77ee3a57e1be719" default))
+ '(global-auto-highlight-symbol-mode t)
+ '(helm-candidate-number-limit 300)
  '(package-selected-packages
-   '(spacemacs-theme auto-highlight-symbol helm-mt flycheck-pos-tip flycheck-color-mode-line flycheck eshell-git-prompt eshell-syntax-highlighting google-c-style evil-nerd-commenter git-gutter better-jumper company-shell json-mode vlf helm-gtags helm-etags-plus ag rg bash-completion srcery-theme magit dtrt-indent helm-projectile powerline-evil powerline evil-leader evil-collection ztree gnu-elpa company gnu-elpa-keyring-update)))
+   '(helm-ag gxref helm-xref spacemacs-theme auto-highlight-symbol helm-mt flycheck-pos-tip flycheck-color-mode-line flycheck eshell-git-prompt eshell-syntax-highlighting google-c-style evil-nerd-commenter git-gutter better-jumper company-shell json-mode vlf helm-gtags helm-etags-plus bash-completion srcery-theme magit dtrt-indent helm-projectile powerline-evil powerline evil-leader evil-collection ztree gnu-elpa company gnu-elpa-keyring-update)))
 (custom-set-faces
  ;; custom-set-faces was added by Custom.
  ;; If you edit it by hand, you could mess it up, so be careful.
@@ -137,10 +139,17 @@
   "b" 'buffer-menu)
 ;; open projectile-ag search
 (evil-leader/set-key
-  "s" 'projectile-ag)
+  "s" 'helm-projectile-ag)
+;; open helm-projectile to find file
+(evil-leader/set-key
+  "o" 'helm-projectile-find-file-dwim)
 ;; open magit-status
 (evil-leader/set-key
   "gs" 'magit-status)
+
+
+;; helm-projectile
+(setq helm-ag-insert-at-point 'symbol)
 
 
 ;; for powerline
@@ -184,5 +193,12 @@
 (helm-mt/reroute-terminal-functions t)
 ;; auto highlight symbol
 (global-auto-highlight-symbol-mode t)
+
+;; for gxref settings
+;(add-to-list 'xref-backend-functions 'gxref-xref-backend)
+
+;; for projectile indexing files
+(setq projectile-enable-caching t)
+(setq projectile-indexing-method 'hybrid projectile-enable-caching t)
 
 ;; init.el ends here
