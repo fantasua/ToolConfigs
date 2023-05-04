@@ -4,7 +4,21 @@
 ;; You may delete these explanatory comments.
 ;;(package-initialize)
 
+(add-to-list 'load-path "~/.emacs.d/configs/")
 
+;; this should be move to another file to keep files organized
+;; activate evil
+(setq evil-want-keybinding nil)
+(require 'evil)
+(evil-mode 1)
+;; evil-leader-key
+(global-evil-leader-mode)
+(evil-leader/set-leader ",")
+(setq evil-leader/in-all-states 1)
+
+
+(require 'user-define-functions)
+(require 'user-define-key-bindings)
 
 (custom-set-variables
  ;; custom-set-variables was added by Custom.
@@ -39,13 +53,6 @@
 ;(set-face-underline 'highlight nil)
 ;; load theme
 (load-theme 'spacemacs-dark 1)
-
-;; open config file
-(defun open-config-file()
-  (interactive)
-  (find-file "~/.emacs.d/init.el"))
-;; bind key<F2> to open config file
-(global-set-key (kbd "<f2>") 'open-config-file)
 
 ;; open c/cpp header file in c++-mode
 (add-to-list 'auto-mode-alist '("\\.h\\'" . c++-mode))
@@ -126,39 +133,13 @@
 (global-company-mode 1)
 
 
-;; activate evil
-(setq evil-want-keybinding nil)
-(require 'evil)
-(evil-mode 1)
-;; evil-leader-key
-(global-evil-leader-mode)
-(evil-leader/set-leader ",")
-(setq evil-leader/in-all-states 1)
-;; open buffer menu
-(evil-leader/set-key
-  "b" 'buffer-menu)
-;; open projectile-ag search
-(evil-leader/set-key
-  "s" 'helm-projectile-ag)
-;; open helm-projectile to find file
-(evil-leader/set-key
-  "o" 'helm-projectile-find-file-dwim)
-;; open magit-status
-(evil-leader/set-key
-  "gs" 'magit-status)
-
-
 ;; helm-projectile
 (setq helm-ag-insert-at-point 'symbol)
-
 
 ;; for powerline
 ;;(require 'powerline)
 (require 'powerline-evil)
 (powerline-evil-vim-color-theme)
-
-;; for helm plugins
-(global-set-key (kbd "M-x") 'helm-M-x)
 
 ;; for dtrt-indent
 (require 'dtrt-indent)
@@ -172,25 +153,9 @@
 ;; for open large files
 (require 'vlf-setup)
 
-;; for better-jumper
-(require 'better-jumper)
-(with-eval-after-load 'evil-maps
-  (define-key evil-motion-state-map (kbd "C-o") 'better-jumper-jump-backward)
-  (define-key evil-motion-state-map (kbd "<C-i>") 'better-jumper-jump-forward))
-
 ;; for git-gutter-plus
 (global-git-gutter-mode 1)
 
-;; for evil-nerd-commenter
-(define-key evil-normal-state-map (kbd ",/") 'evilnc-comment-or-uncomment-lines)
-(define-key evil-visual-state-map (kbd ",/") 'evilnc-comment-or-uncomment-lines)
-
-;; for helm-mt, which is a helm for terminal emulator
-(require 'helm-mt)
-;; using evil-leader
-(evil-leader/set-key
-  "t" 'helm-mt)
-(helm-mt/reroute-terminal-functions t)
 ;; auto highlight symbol
 (global-auto-highlight-symbol-mode t)
 
