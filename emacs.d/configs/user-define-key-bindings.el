@@ -1,6 +1,9 @@
 ;; bind key<F2> to open config file
 (global-set-key (kbd "<f2>") 'open-config-file)
 
+;; bind key<F5> to update gtags
+(global-set-key (kbd "<f5>") 'projectile-regenerate-tags)
+
 ;; for helm plugins
 (global-set-key (kbd "M-x") 'helm-M-x)
 
@@ -17,7 +20,10 @@
   "s" 'helm-projectile-ag)
 ;; open helm-projectile to find file
 (evil-leader/set-key
-  "o" 'helm-projectile-find-file-dwim)
+  "f" 'helm-projectile-find-file-dwim)
+;; open imenu-list
+(evil-leader/set-key
+  "o" 'helm-semantic-or-imenu)
 ;; open magit-status
 (evil-leader/set-key
   "gs" 'magit-status)

@@ -2,6 +2,10 @@
 (tool-bar-mode 0)
 (menu-bar-mode 0)
 (scroll-bar-mode 0)
+(global-auto-revert-mode)
+;; scrolling
+(setq scroll-conservatively 101
+      scroll-margin 0)
 
 ;; show matching bracket
 (show-paren-mode 1)
@@ -17,7 +21,7 @@
 
 ;;; theme
 ;; load theme
-(load-theme 'spacemacs-dark 1)
+(load-theme 'spacemacs-dark)
 
 ;; highlighting
 ;; disable highlight line when in visual mode
@@ -39,6 +43,12 @@
 ;; set default indent
 (setq default-tab-width 4)
 (setq-default indent-tabs-mode nil)
+
+;; for ggtags mode
+;;(add-hook 'c-mode-common-hook 'ggtags-mode)
+;;(add-hook 'c++-mode-hook 'ggtags-mode)
+;;(add-hook 'python-mode-hook 'ggtags-mode)
+
 
 ;; c/c++ code indent
 (require 'google-c-style)
@@ -88,6 +98,12 @@
 ;;; helm-projectile
 (setq helm-ag-insert-at-point 'symbol)
 
+;;; for imenu-list
+;;; currently disabled imenu-list
+;(imenu-list-minor-mode) ; do not bring imenu up on startup
+;(setq imenu-list-position 'right)
+;(setq imenu-list-size 0.2)
+
 ;;; for powerline
 ;;(require 'powerline)
 (require 'powerline-evil)
@@ -96,6 +112,12 @@
 ;;; for dtrt-indent
 (require 'dtrt-indent)
 (dtrt-indent-mode 1)
+
+
+;;; for highlight-indentation
+(require 'highlight-indentation)
+(set-face-background 'highlight-indentation-face "#e3e3d3")
+(set-face-background 'highlight-indentation-current-column-face "#c3b3b3")
 
 ;;; for projectile
 (projectile-mode 1)
