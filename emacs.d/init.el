@@ -16,13 +16,13 @@
  '(global-auto-highlight-symbol-mode t)
  '(helm-candidate-number-limit 300)
  '(package-selected-packages
-   '(gruvbox-theme highlight-indentation helm-ag gxref helm-xref spacemacs-theme auto-highlight-symbol flycheck-pos-tip flycheck-color-mode-line flycheck eshell-git-prompt eshell-syntax-highlighting google-c-style evil-nerd-commenter git-gutter better-jumper company-shell json-mode vlf helm-gtags helm-etags-plus bash-completion srcery-theme magit dtrt-indent helm-projectile powerline-evil powerline evil-leader evil-collection ztree gnu-elpa company gnu-elpa-keyring-update)))
+   '(highlight-indent-guides vterm ggtags magit gruvbox-theme helm-ag gxref helm-xref spacemacs-theme auto-highlight-symbol flycheck-pos-tip flycheck-color-mode-line flycheck eshell-git-prompt eshell-syntax-highlighting google-c-style evil-nerd-commenter git-gutter better-jumper company-shell json-mode vlf helm-gtags helm-etags-plus bash-completion srcery-theme dtrt-indent helm-projectile powerline-evil powerline evil-leader evil-collection ztree gnu-elpa company gnu-elpa-keyring-update)))
 (custom-set-faces
  ;; custom-set-faces was added by Custom.
  ;; If you edit it by hand, you could mess it up, so be careful.
  ;; Your init file should contain only one such instance.
  ;; If there is more than one, they won't work right.
- )
+ '(which-func ((t (:foreground "yellow")))))
 
 ;; enable melpa
 ;; from melpa known issues
@@ -46,7 +46,15 @@
 ;; emacs mode which is commonly used
 (defun my-code-modes ()
   (hs-minor-mode)
-  (hl-line-mode))
+  ;; highlight current line
+  (hl-line-mode)
+  (which-function-mode)
+  ;; highlight-indent-guide
+  (highlight-indent-guides-mode 1)
+  (set-variable 'highlight-indent-guides-method 'character)
+  (set-variable 'highlight-indent-guides-auto-enabled 'nil)
+  (set-face-foreground 'highlight-indent-guides-character-face "dimgray")
+  )
 
 ;; use define settings
 ;;; common settings
@@ -54,6 +62,9 @@
 (menu-bar-mode 0)
 (scroll-bar-mode 0)
 (global-auto-revert-mode)
+;; show line number
+(global-display-line-numbers-mode 1)
+
 ;; scrolling
 (setq scroll-conservatively 101
       scroll-margin 0)
@@ -65,8 +76,6 @@
 
 ;; show matching bracket
 (show-paren-mode 1)
-;; show line number
-(global-display-line-numbers-mode 1)
 
 ;; current line highlight
 ;;(global-hl-line-mode 1)
@@ -101,9 +110,11 @@
 (setq-default indent-tabs-mode nil)
 
 ;; for ggtags mode
-;;(add-hook 'c-mode-common-hook 'ggtags-mode)
-;;(add-hook 'c++-mode-hook 'ggtags-mode)
-;;(add-hook 'python-mode-hook 'ggtags-mode)
+;; (add-hook 'c-mode-common-hook 'ggtags-mode)
+;; (add-hook 'c++-mode-hook 'ggtags-mode)
+;; (add-hook 'python-mode-hook 'ggtags-mode)
+
+;; for indent guideline
 
 
 ;; c/c++ code indent
@@ -169,12 +180,6 @@
 (require 'dtrt-indent)
 (dtrt-indent-mode 1)
 
-
-;;; for highlight-indentation
-(require 'highlight-indentation)
-(set-face-background 'highlight-indentation-face "#e3e3d3")
-(set-face-background 'highlight-indentation-current-column-face "#c3b3b3")
-
 ;;; for projectile
 (projectile-mode 1)
 (projectile-discover-projects-in-directory ".")
@@ -190,7 +195,7 @@
 (global-auto-highlight-symbol-mode t)
 
 ;; for gxref settings
-;(add-to-list 'xref-backend-functions 'gxref-xref-backend)
+(add-to-list 'xref-backend-functions 'gxref-xref-backend)
 
 ;; for projectile indexing files
 (setq projectile-enable-caching t)
@@ -199,6 +204,7 @@
 
 ;; settings for flycheck
 (add-hook 'after-init-hook #'global-flycheck-mode)
+(setq flycheck-checker-error-threshold 10000)
 (require 'flycheck-color-mode-line)
 (eval-after-load "flycheck"
   '(add-hook 'flycheck-mode-hook 'flycheck-color-mode-line-mode))
@@ -231,6 +237,7 @@
 
 ;;; using evil-leader key binding
 ;; open buffer menu
+(require 'evil-leader)
 (evil-leader/set-key
   "b" 'helm-buffers-list)
 ;; open projectile-ag search
@@ -251,21 +258,39 @@
   "gs" 'magit-status)
 ;; open magit-log
 (evil-leader/set-key
-  "gs" 'magit-log)
+  "gl" 'magit-log)
 ;; when editing commit message in magit
 
+;; key-binding for finding rtags
+;(require 'helm-gtags)
+;(with-eval-after-load 'evil-maps
+;  (define-key evil-motion-state-map (kbd "C-[") 'helm-gtags-find-rtag))
+
+;; for vterm
+(defun open-vterm-in-new-tab ()
+  (interactive)
+  (other-tab-prefix)
+  (vterm)
+)
+;; bound to evil leader
+(require 'evil-leader)
+(require 'vterm)
+(evil-leader/set-key
+  "t" 'open-vterm-in-new-tab)
+
+
 ;; for better-jumper
-(require 'better-jumper)
-(with-eval-after-load 'evil-maps
-  (define-key evil-motion-state-map (kbd "C-o") 'better-jumper-jump-backward)
-  (define-key evil-motion-state-map (kbd "<C-i>") 'better-jumper-jump-forward))
+;(require 'better-jumper)
+;(with-eval-after-load 'evil-maps
+;  (define-key evil-motion-state-map (kbd "C-o") 'better-jumper-jump-backward)
+;  (define-key evil-motion-state-map (kbd "C-i") 'better-jumper-jump-forward))
 
 ;; for helm-mt, which is a helm for terminal emulator
 ;(require 'helm-mt)
 ;(evil-leader/set-key
 ;  "t" 'helm-mt)
 ;; now using eshell
-(evil-leader/set-key
-  "t" 'eshell)
+;;(evil-leader/set-key
+;;  "t" 'eshell)
 
 ;; init.el ends here
